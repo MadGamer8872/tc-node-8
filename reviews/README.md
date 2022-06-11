@@ -11,3 +11,4 @@ All in-class review notes can be found in this sub-folder. Use the table of cont
 - [CSS Review](css-review.md)
 - [HTML and CSS](html-and-css.md)
 - [JS Variables and Data Types](js-variables-and-data-types.md)
+- [JS Functions](js-functions.md)

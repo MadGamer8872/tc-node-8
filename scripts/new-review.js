@@ -51,7 +51,6 @@ class Templater {
     let ulEnd = null;
 
     for (let i = ulStart; i < txt.length; i++) {
-      console.log(txt[i]);
       if (txt[i] == "#" || i == txt.length - 1) {
         ulEnd = i;
         break;
