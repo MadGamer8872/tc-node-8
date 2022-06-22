@@ -1,13 +1,35 @@
-console.log("Hello World");
+// Function declaration - this binding
+// create a dynamic this binding
 
-var price = 19.99;
+// Arrow Notation - this binding
+// binds this to the context at DEFINITION
 
-// var is function scoped
+function greet() {
+  console.log(`Hello! My name is ${this.name}`);
+}
 
-// let is block scoped
+const greetArrow = () => {
+  console.log(`Hello! My name is ${this.name}`);
+};
 
-// Scopes (denoted by {})
-// Global
-// Local, function or block
+console.log("Caller context is the script scope");
 
-var price; // undefined or 19.99
+greet();
+
+greetArrow();
+
+let arr = [1, 2, 3, 4, 5];
+
+let math = {
+  value: 10,
+  multiplyByLength(num) {
+    console.log(this);
+    return num * this.value;
+  },
+};
+
+math.multiplyByLength = math.multiplyByLength.bind(math);
+
+let result = arr.map((num, _, self) => num * self.length);
+
+console.log(result);

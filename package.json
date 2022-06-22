@@ -4,6 +4,7 @@
   "description": "All things needed for tc-node-8 students",
   "main": "index.js",
   "scripts": {
+    "start": "start ./public/canvas.html",
     "test": "echo \"Error: no test specified\" && exit 1",
     "new-file": "node scripts/new-review.js",
     "check": "node scripts/check-answers.js"

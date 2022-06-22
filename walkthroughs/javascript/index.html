@@ -40,24 +40,34 @@
         border-left: 1px solid #555;
       }
     </style>
-    <script src="./objects/lesson.js"></script>
+    <script src="./async/fetching-data.js" defer></script>
   </head>
   <body>
     <div id="root">
       <main>
-        <h1>JavaScript Lessons</h1>
-        <p>We'll be viewing our work in the browser console.</p>
-        <ul>
-          <li>
-            Open the dev tools with <kbd>F12</kbd> or Right-Click => Inspect.
-          </li>
-          <li>Toggle the 'Console' tab to view the browser console</li>
-          <li>
-            Anytime you use <code>console.log()</code>, you will see the output
-            here.
-          </li>
-        </ul>
-        <p>Happy Hacking!</p>
+        <h1>Codewars User Lookup</h1>
+        <p>Type the username of the user you would like to lookup</p>
+        <form>
+          <label for="username">Username</label
+          ><input
+            type="search"
+            name="username"
+            id="username"
+            required
+            minlength="3"
+          />
+          <button type="submit">Lookup</button>
+        </form>
+        <div class="card" hidden>
+          <div class="card-body">
+            <h2 id="title"></h2>
+            <ul id="user-attributes">
+              <li></li>
+              <li></li>
+              <li></li>
+            </ul>
+          </div>
+        </div>
       </main>
     </div>
   </body>

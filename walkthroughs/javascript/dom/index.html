@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DOM</title>
+    <script src="./index.js" defer></script>
+  </head>
+  <body>
+    <!-- Elements Here -->
+    <h1>Calculator 101</h1>
+    <form>
+      <div>
+        <select name="op" id="op">
+          <option value="add">+</option>
+          <option value="subtract">-</option>
+          <option value="multiply">x</option>
+          <option value="divide">/</option>
+        </select>
+      </div>
+      <div>
+        <label for="num1">First Number</label
+        ><input type="number" name="num1" id="num1" required />
+      </div>
+      <div>
+        <label for="num2">Second Number</label
+        ><input type="number" name="num2" id="num2" />
+      </div>
+      <button type="submit">Get Result</button>
+    </form>
+    <hr />
+    <p id="result">0</p>
+  </body>
+</html>
