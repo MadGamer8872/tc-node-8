@@ -1,52 +1,22 @@
-// Spread and Rest (gather)
-// ... operator
-
-// Instance of Iterable
-let arr = [1, 2, 3, 4, 5];
-
-// Iterator (consumes an iterable object)
-for (let ele of arr) {
-  console.log(ele * 2);
-}
-
-// Spread
-
-// Example: Copy array values
-let arrCopy = Array.from(arr);
-// or
-let arrCopy2 = [...arr];
-
-// Example: Merging Objects
-let details = {
-  name: "Ben",
-  city: "Birmingham",
+const App = () => {
+  return (
+    <div className="App">
+      <h1 id="title">Hello World!</h1>
+    </div>
+  );
 };
 
-let updatedDetails = {
-  color: "Red",
-  name: "Benjamin",
-};
+// would be:
 
-let mergedObj = {
-  ...details,
-  ...updatedDetails,
-};
+let root = document.querySelector("#root");
 
-console.log(mergedObj.name.split(""));
-console.log([...mergedObj.name]);
+let div = document.createElement("div");
+div.classList.add("App");
 
-Object.entries(details); // returns [["name", "Ben"], ["city", "Birmingham"]]
+let h1 = document.createElement("h1");
+h1.textContent = "Hello World!";
+h1.id = "title";
 
-// Rest (gather)
+div.appendChild(h1);
 
-// Unknown number of arguments
-function add(...nums) {
-  return nums.reduce((sum, num) => sum + num, 0);
-}
-
-add(1, 1); // 2
-add(1, 2, 3, 4, 5); // 15
-
-console.log("Ben", false, null, undefined);
-
-Math.min(1, 2, 3, 4, 5, 0); // 0
+root.appendChild(div);
