@@ -1,22 +1,54 @@
-const App = () => {
-  return (
-    <div className="App">
-      <h1 id="title">Hello World!</h1>
-    </div>
-  );
-};
+class Component {
+  constructor(props) {
+    this.props = props;
+  }
 
-// would be:
+  setState(newState) {
+    this.state = { ...this.state, ...newState };
 
-let root = document.querySelector("#root");
+    this.render();
+  }
+}
 
-let div = document.createElement("div");
-div.classList.add("App");
+class App extends Component {
+  constructor(props) {
+    super(props);
 
-let h1 = document.createElement("h1");
-h1.textContent = "Hello World!";
-h1.id = "title";
+    this.state = {
+      count: 0,
+    };
+  }
 
-div.appendChild(h1);
+  increment() {
+    this.setState({ count: this.state.count + 1 });
+  }
 
-root.appendChild(div);
+  render() {
+    setTimeout(() => {
+      this.increment();
+    }, 3000);
+
+    console.log(this.state.count);
+  }
+}
+
+const app = new App();
+
+// app.render();
+
+function statelessApp() {
+  let count = 1;
+
+  function increment() {
+    count++;
+    statelessApp();
+  }
+
+  setTimeout(() => {
+    increment();
+  }, 3000);
+
+  console.log(count);
+}
+
+// statelessApp()

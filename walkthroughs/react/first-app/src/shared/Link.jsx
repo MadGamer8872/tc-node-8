@@ -1,12 +1,13 @@
-function Link() {
+function Link({
+  className = "",
+  href = "#",
+  target = "_blank",
+  rel = "noopener noreferrer",
+  children,
+}) {
   return (
-    <a
-      className="App-link"
-      href="https://reactjs.org"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      Learn React
+    <a className={`link ${className}`} href={href} target={target} rel={rel}>
+      {children} {/* text content or inner html of the link */}
     </a>
   );
 }
