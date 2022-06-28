@@ -2,31 +2,42 @@ import logo from "./logo.svg";
 import "./App.css";
 import Button from "./shared/Button";
 import { Component } from "react";
+import ListGroup from "./shared/ListGroup";
+import ListItem from "./shared/ListItem";
 
 // Rendered List
 // Array of jsx elements
+
+// Handling Input
+// // Controlled Inputs
+// // Input values are mapped/controlled by state
 
 class App extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      count: 0, // 0 is the initial state for count
-      names: ["Frodo", "Bilbo", "Sam"],
+      tasks: ["Nap", "Eat", "Code"],
+      task: "",
     };
-
-    this.incrementValue = 1;
-    this.decrementValue = 1;
   }
 
-  onAdd = () => {
-    // this.state.count += this.incrementValue; WRONG
-    this.setState({ count: this.state.count + this.incrementValue });
+  onAdd = (event) => {
+    event.preventDefault();
+
+    let updatedTasks = [...this.state.tasks, this.state.task];
+
+    this.setState({ tasks: updatedTasks, task: "" });
   };
 
-  onDelete = () => {
-    // this.state.count -= this.decrementValue; WRONG
-    this.setState({ count: this.state.count - this.decrementValue });
+  onDelete = (selectedTask) => {
+    let updatedTasks = this.state.tasks.filter((task) => task !== selectedTask);
+
+    this.setState({ tasks: updatedTasks });
+  };
+
+  handleInput = (event) => {
+    this.setState({ task: event.target.value });
   };
 
   render() {
@@ -34,14 +45,27 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <ul>
-            {this.state.names.map((name, i) => {
-              return <li key={name + i}>{name}</li>;
+          <form onSubmit={this.onAdd}>
+            <label htmlFor="task">New Task</label>
+            <input
+              type="text"
+              name="task"
+              id="task"
+              value={this.state.task}
+              onChange={this.handleInput}
+            />
+            <Button type="submit">Add</Button>
+          </form>
+          <ListGroup>
+            {this.state.tasks.map((task, i) => {
+              return (
+                <ListItem key={task + i}>
+                  <span>{task}</span>
+                  <Button onClick={(event) => this.onDelete(task)}>X</Button>
+                </ListItem>
+              );
             })}
-          </ul>
-          <p>{this.state.count}</p>
-          <Button onClick={this.onAdd}>Add</Button>
-          <Button onClick={this.onDelete}>Delete</Button>
+          </ListGroup>
         </header>
       </div>
     );
