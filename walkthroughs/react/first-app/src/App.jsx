@@ -1,16 +1,6 @@
 import "./App.css";
 import { Component } from "react";
 
-const CW_URL = "https://www.codewars.com/api/v1/users";
-const CW_USER = "Bryantellius";
-
-// Rendered List
-// Array of jsx elements
-
-// Handling Input
-// // Controlled Inputs
-// // Input values are mapped/controlled by state
-
 class App extends Component {
   controller = new AbortController();
 
@@ -18,47 +8,60 @@ class App extends Component {
     super(props);
 
     this.state = {
-      user: {},
-      hasLoaded: false,
+      isLoaded: false,
+      title: "",
+      films: [],
     };
   }
 
-  fetchUser = async (username) => {
-    try {
-      let res = await fetch(CW_URL + `/${username}`, {
-        signal: this.controller.signal,
-      });
-      let { clan, name, honor, ranks } = await res.json();
-
-      return { clan, username, name, honor, ranks };
-    } catch (e) {
-      console.error(e);
-      return { username, status: "No user data" };
-    }
+  handleSearch = (e) => {
+    this.setState({ title: e.target.value });
   };
 
-  componentDidMount = async () => {
-    let user = await this.fetchUser(CW_USER);
-    this.setState({ user, hasLoaded: true });
-  };
+  filterResultsJSX() {
+    return this.state.films
+      .filter((film) =>
+        film.title.toLowerCase().includes(this.state.title.toLowerCase())
+      )
+      .map((film) => <li key={film.id}>{film.title}</li>);
+  }
 
-  componentWillUnmount() {
-    this.controller.abort();
+  componentDidMount() {
+    fetch("https://ghibliapi.herokuapp.com/films", {
+      signal: this.controller.signal,
+    })
+      .then((res) => res.json())
+      .then((films) => {
+        console.log(films);
+        this.setState({ isLoaded: true, films });
+      })
+      .catch((err) => console.error(err));
+  }
+
+  componentWillUnmount(reason) {
+    if (reason) this.controller.abort();
   }
 
   render() {
-    if (!this.state.hasLoaded) {
-      return <h1>Loading...</h1>;
-    } else
+    if (this.state.isLoaded) {
       return (
-        <div className="App">
-          <header className="App-header">
-            <h1>
-              {this.state.user.name}, {this.state.user.honor}
-            </h1>
-          </header>
-        </div>
+        <main>
+          <h1>Studio Ghibli Films</h1>
+          <input
+            type="search"
+            placeholder="Search"
+            id="title"
+            name="title"
+            aria-label="Search Title"
+            value={this.state.title}
+            onChange={this.handleSearch}
+          />
+          <ul>{this.filterResultsJSX()}</ul>
+        </main>
       );
+    } else {
+      return <h1>Loading...</h1>;
+    }
   }
 }
 
