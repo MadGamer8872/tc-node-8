@@ -1,9 +1,8 @@
-import logo from "./logo.svg";
 import "./App.css";
-import Button from "./shared/Button";
 import { Component } from "react";
-import ListGroup from "./shared/ListGroup";
-import ListItem from "./shared/ListItem";
+
+const CW_URL = "https://www.codewars.com/api/v1/users";
+const CW_USER = "Bryantellius";
 
 // Rendered List
 // Array of jsx elements
@@ -13,62 +12,53 @@ import ListItem from "./shared/ListItem";
 // // Input values are mapped/controlled by state
 
 class App extends Component {
+  controller = new AbortController();
+
   constructor(props) {
     super(props);
 
     this.state = {
-      tasks: ["Nap", "Eat", "Code"],
-      task: "",
+      user: {},
+      hasLoaded: false,
     };
   }
 
-  onAdd = (event) => {
-    event.preventDefault();
+  fetchUser = async (username) => {
+    try {
+      let res = await fetch(CW_URL + `/${username}`, {
+        signal: this.controller.signal,
+      });
+      let { clan, name, honor, ranks } = await res.json();
 
-    let updatedTasks = [...this.state.tasks, this.state.task];
-
-    this.setState({ tasks: updatedTasks, task: "" });
+      return { clan, username, name, honor, ranks };
+    } catch (e) {
+      console.error(e);
+      return { username, status: "No user data" };
+    }
   };
 
-  onDelete = (selectedTask) => {
-    let updatedTasks = this.state.tasks.filter((task) => task !== selectedTask);
-
-    this.setState({ tasks: updatedTasks });
+  componentDidMount = async () => {
+    let user = await this.fetchUser(CW_USER);
+    this.setState({ user, hasLoaded: true });
   };
 
-  handleInput = (event) => {
-    this.setState({ task: event.target.value });
-  };
+  componentWillUnmount() {
+    this.controller.abort();
+  }
 
   render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <form onSubmit={this.onAdd}>
-            <label htmlFor="task">New Task</label>
-            <input
-              type="text"
-              name="task"
-              id="task"
-              value={this.state.task}
-              onChange={this.handleInput}
-            />
-            <Button type="submit">Add</Button>
-          </form>
-          <ListGroup>
-            {this.state.tasks.map((task, i) => {
-              return (
-                <ListItem key={task + i}>
-                  <span>{task}</span>
-                  <Button onClick={(event) => this.onDelete(task)}>X</Button>
-                </ListItem>
-              );
-            })}
-          </ListGroup>
-        </header>
-      </div>
-    );
+    if (!this.state.hasLoaded) {
+      return <h1>Loading...</h1>;
+    } else
+      return (
+        <div className="App">
+          <header className="App-header">
+            <h1>
+              {this.state.user.name}, {this.state.user.honor}
+            </h1>
+          </header>
+        </div>
+      );
   }
 }
 
