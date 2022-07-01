@@ -1,9 +1,9 @@
 import React from "react";
 
-export const HomeView = (props) => {
+export const SpeciesView = (props) => {
   return (
     <main>
-      <h1>Home</h1>
+      <h1>Species</h1>
     </main>
   );
 };
