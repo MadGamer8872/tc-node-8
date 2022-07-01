@@ -1,0 +1,11 @@
+.nav-link {
+  color: brown;
+  background-color: white;
+  text-decoration: none;
+  font-size: 2rem;
+}
+
+.active {
+  background-color: brown;
+  color: white;
+}
