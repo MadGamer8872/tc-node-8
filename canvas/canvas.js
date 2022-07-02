@@ -1,52 +1,54 @@
-// Spread and Rest (gather)
-// ... operator
+class Component {
+  constructor(props) {
+    this.props = props;
+  }
 
-// Instance of Iterable
-let arr = [1, 2, 3, 4, 5];
+  setState(newState) {
+    this.state = { ...this.state, ...newState };
 
-// Iterator (consumes an iterable object)
-for (let ele of arr) {
-  console.log(ele * 2);
+    this.render();
+  }
 }
 
-// Spread
+class App extends Component {
+  constructor(props) {
+    super(props);
 
-// Example: Copy array values
-let arrCopy = Array.from(arr);
-// or
-let arrCopy2 = [...arr];
+    this.state = {
+      count: 0,
+    };
+  }
 
-// Example: Merging Objects
-let details = {
-  name: "Ben",
-  city: "Birmingham",
-};
+  increment() {
+    this.setState({ count: this.state.count + 1 });
+  }
 
-let updatedDetails = {
-  color: "Red",
-  name: "Benjamin",
-};
+  render() {
+    setTimeout(() => {
+      this.increment();
+    }, 3000);
 
-let mergedObj = {
-  ...details,
-  ...updatedDetails,
-};
-
-console.log(mergedObj.name.split(""));
-console.log([...mergedObj.name]);
-
-Object.entries(details); // returns [["name", "Ben"], ["city", "Birmingham"]]
-
-// Rest (gather)
-
-// Unknown number of arguments
-function add(...nums) {
-  return nums.reduce((sum, num) => sum + num, 0);
+    console.log(this.state.count);
+  }
 }
 
-add(1, 1); // 2
-add(1, 2, 3, 4, 5); // 15
+const app = new App();
 
-console.log("Ben", false, null, undefined);
+// app.render();
 
-Math.min(1, 2, 3, 4, 5, 0); // 0
+function statelessApp() {
+  let count = 1;
+
+  function increment() {
+    count++;
+    statelessApp();
+  }
+
+  setTimeout(() => {
+    increment();
+  }, 3000);
+
+  console.log(count);
+}
+
+// statelessApp()
